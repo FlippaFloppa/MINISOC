@@ -1,145 +1,73 @@
 apiVersion: v1
-
 kind: Service
-
 metadata:
-
   creationTimestamp: null
-
   name: soc
-
   namespace: scalable
-
 spec:
-
   ports:
-
   - port: 5000
-
     protocol: TCP
-
     targetPort: 5000
-
   selector:
-
     app: soc
-
   type: LoadBalancer
-
 status:
-
   loadBalancer: {}
-
 ---
-
 apiVersion: v1
-
 kind: PersistentVolume
-
 metadata:
-
   name: shared-pv
-
   labels:
-
     type: local
-
 spec:
-
   storageClassName: manual
-
   capacity:
-
     storage: 1Gi
-
   accessModes:
-
     - ReadWriteOnce
-
   hostPath:
-
-    path: "/tmp/data"
-
+    path: "/mnt/data"
 ---
-
 apiVersion: v1
-
 kind: PersistentVolumeClaim
-
 metadata:
-
   name: shared-pvc
-
   namespace: scalable
-
 spec:
-
   storageClassName: manual
-
   accessModes:
-
     - ReadWriteOnce
-
   resources:
-
     requests:
-
       storage: 200Mi
-
 ---
-
 apiVersion: apps/v1
-
 kind: ReplicaSet
-
 metadata:
-
   name: soc
-
   namespace: scalable
-
 spec:
-
   selector:
-
     matchLabels:
-
       app: soc
-
   replicas: 3
-
   template:
-
     metadata:
-
       labels:
-
         app: soc
-
     spec:
-
       volumes:
-
         - name: shared-volume
-
           persistentVolumeClaim:
-
             claimName: shared-pvc
-
       containers:
-
       - image: docker.io/library/distroless-flask:v1
-
         name: flask-test
-
         resources: {}
-
         volumeMounts:
-
         - name: shared-volume
-
           mountPath: /app/uploads
-
       dnsPolicy: ClusterFirst
-
       restartPolicy: Always
