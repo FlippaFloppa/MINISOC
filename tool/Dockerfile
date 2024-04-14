@@ -2,6 +2,8 @@ FROM python:3.9-slim-buster
 WORKDIR /app
 COPY . /app
 RUN pip install -r requirements.txt
+RUN apt update && apt upgrade -y 
+RUN apt install tcpreplay -y
 COPY . .
 EXPOSE 5000
 ENV FLASK_APP=app.py
