@@ -6,34 +6,20 @@
 """
 import os
 
-from flask import Flask, render_template, request
-from flask_dropzone import Dropzone
+from flask import Flask, render_template, request, render_template_string
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 app = Flask(__name__)
 
-app.config.update(
-    UPLOADED_PATH=os.path.join(basedir, 'uploads'),
-    # Flask-Dropzone config:
-    DROPZONE_ALLOWED_FILE_TYPE='text',
-    DROPZONE_MAX_FILE_SIZE=3,
-    DROPZONE_MAX_FILES=30,
-    DROPZONE_PARALLEL_UPLOADS=3,  # set parallel amount
-    DROPZONE_UPLOAD_MULTIPLE=True,  # enable upload multiple
-)
-
-dropzone = Dropzone(app)
-
-
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/analyze', methods=['GET'])
 def upload():
-    if request.method == 'POST':
-        for key, f in request.files.items():
-            if key.startswith('file'):
-                f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
-    return render_template('index.html')
+    filename = request.args.get('filename')
+    cmd = f'tcpreplay -K --pps=10000 -i eth0 uploads/{filename} > tmp'
+    os.system(cmd)
+    result = (open('tmp', 'r').read())
+    return render_template('index.html', data = result)
 
 
 if __name__ == '__main__':
