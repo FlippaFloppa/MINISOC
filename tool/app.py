@@ -6,7 +6,7 @@
 """
 import os
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, render_template_string
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,10 +16,10 @@ app = Flask(__name__)
 @app.route('/analyze', methods=['GET'])
 def upload():
     filename = request.args.get('filename')
-    cmd = f'tcpreplay -K --pps=10000 -i eth0 uploads/{filename} > tmp' 
+    cmd = f'tcpreplay -K --pps=10000 -i eth0 uploads/{filename} > tmp'
     os.system(cmd)
     result = (open('tmp', 'r').read())
-    return render_template_string(result)
+    return render_template('index.html', data = result)
 
 
 if __name__ == '__main__':
