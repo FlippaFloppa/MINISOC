@@ -13,7 +13,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
-@app.route('/analyze', methods=['GET'])
+@app.route('/analyze', methods=['GET','POST'])
 def upload():
     filename = request.args.get('filename')
     cmd = f'tcpreplay -K --pps=10000 -i eth0 uploads/{filename} > tmp'
@@ -25,4 +25,4 @@ def upload():
     
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0",debug=True)

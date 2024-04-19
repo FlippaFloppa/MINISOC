@@ -6,8 +6,8 @@
 """
 import os
 
-from flask import Flask, render_template, request
 from flask_dropzone import Dropzone
+from flask import Flask, render_template, request
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -27,15 +27,20 @@ app.config.update(
 
 dropzone = Dropzone(app)
 
-
 @app.route('/', methods=['POST', 'GET'])
+def init():
+    result = ""
+    return render_template('index.html', filename=result)
+
+@app.route('/upload', methods=['POST', 'GET'])
 def upload():
     if request.method == 'POST':
         for key, f in request.files.items():
             if key.startswith('file'):
                 f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
-    return render_template('index.html')
-
+                result=f.filename
+                print(result)
+    return render_template('index.html', filename=result)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
