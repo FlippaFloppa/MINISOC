@@ -11,7 +11,7 @@ spec:
     targetPort: 5000
   selector:
     app: tool
-  type: LoadBalancer
+  type: ClusterIP
 status:
   loadBalancer: {}
 ---

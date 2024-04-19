@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Flask-Dropzone Demo: Parallel Upload</title>
+  <title>Security Operation Center</title>
   {{ dropzone.load_css() }}
   {{ dropzone.style('border: 2px dashed #0087F7; margin: 10%; min-height: 400px;') }}
 </head>
 <body>
+  <input type="button" name="service_1_button" value="Service">
   {{ dropzone.create(action='upload') }}
   {{ dropzone.load_js() }}
   {{ dropzone.config() }}

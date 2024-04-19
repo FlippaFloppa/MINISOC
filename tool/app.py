@@ -18,9 +18,11 @@ def upload():
     filename = request.args.get('filename')
     cmd = f'tcpreplay -K --pps=10000 -i eth0 uploads/{filename} > tmp'
     os.system(cmd)
-    result = (open('tmp', 'r').read())
+    f = open('tmp', 'r')
+    result = f.read()
+    f.close()
     return render_template('index.html', data = result)
-
+    
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
