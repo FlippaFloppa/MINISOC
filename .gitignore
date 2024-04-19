@@ -1,0 +1,4 @@
+# ignore files uploaded
+tool/uploads/*
+
+*/__pycache__/
