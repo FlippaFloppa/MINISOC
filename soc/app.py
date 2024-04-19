@@ -29,8 +29,7 @@ dropzone = Dropzone(app)
 
 @app.route('/', methods=['POST', 'GET'])
 def init():
-    result = ""
-    return render_template('index.html', filename=result)
+    return render_template('index.html')
 
 @app.route('/upload', methods=['POST', 'GET'])
 def upload():
@@ -38,9 +37,7 @@ def upload():
         for key, f in request.files.items():
             if key.startswith('file'):
                 f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
-                result=f.filename
-                print(result)
-    return render_template('index.html', filename=result)
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
