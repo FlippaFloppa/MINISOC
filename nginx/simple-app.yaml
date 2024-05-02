@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: simple-app
+  name: simple-app
+  namespace: scalable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-app
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: simple-app
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+        volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+            - name: nginx-ingress-pvc
+              mountPath: /var/log/nginx
+      - name: goaccess
+        command:
+        command: [ "/bin/sh", "-c", "--" ]
+        args: [ "while true; do goaccess /var/log/nginx/nginx-access.log -o /var/log/nginx/result.html --log-format=COMBINED; done;" ]
+        image: allinurl/goaccess
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 200m
+            memory: 32Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/log/nginx
+          name: nginx-ingress-pvc
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-conf
+          items:
+            - key: nginx.conf
+              path: nginx.conf
+      - name: nginx-ingress-pvc
+        persistentVolumeClaim:
+          claimName: ingress-pvc
+status: {}

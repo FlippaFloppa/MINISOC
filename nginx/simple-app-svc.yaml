@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: simple-app
+  name: simple-app
+  namespace: scalable
+spec:
+  ports:
+  - port: 5001
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: simple-app
+  type: LoadBalancer
+status:
+  loadBalancer: {}

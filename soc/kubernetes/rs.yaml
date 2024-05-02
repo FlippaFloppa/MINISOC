@@ -34,6 +34,9 @@ spec:
         - name: shared-volume
           persistentVolumeClaim:
             claimName: shared-pvc
+        - name: ingress
+          persistentVolumeClaim:
+            claimName: ingress-pvc
       containers:
       - image: docker.io/library/soc:v1
         name: soc
@@ -41,5 +44,7 @@ spec:
         volumeMounts:
         - name: shared-volume
           mountPath: /app/uploads
+        - name: ingress
+          mountPath: /app/templates/logs/
       dnsPolicy: ClusterFirst
       restartPolicy: Always
