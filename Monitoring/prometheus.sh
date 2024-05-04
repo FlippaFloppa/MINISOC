@@ -1,3 +1,3 @@
 #!/bin/bash
 
-helm upgrade --install prometheus prometheus-community/kube-prometheus-stack -n monitoring --values monitoring.yaml
+helm upgrade --install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring --create-namespace --values monitoring.yaml

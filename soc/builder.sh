@@ -1,6 +1,5 @@
-kubectl delete -f kubernetes/rs.yaml
+kubectl delete -f kubernetes/soc.yaml
 docker build -t soc .
 docker tag soc soc:v1
-minikube image rm docker.io/library/soc:v1
-minikube image load soc:v1
-kubectl apply -f kubernetes/rs.yaml
+docker save soc:v1 | sudo k3s ctr images import -
+kubectl apply -f kubernetes/soc.yaml

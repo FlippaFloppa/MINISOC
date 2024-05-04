@@ -1,50 +1,53 @@
 apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: scalable
+spec: {}
+status: {}
+---
+apiVersion: v1
 kind: Service
 metadata:
   creationTimestamp: null
-  name: soc-svc
+  name: tool-svc
   namespace: scalable
 spec:
   ports:
-  - port: 5000
+  - port: 5001
     protocol: TCP
     targetPort: 5000
   selector:
-    app: soc
-  type: LoadBalancer
+    app: tool
+  type: ClusterIP
 status:
   loadBalancer: {}
 ---
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: soc
+  name: tool
   namespace: scalable
 spec:
   selector:
     matchLabels:
-      app: soc
-  replicas: 3
+      app: tool
+  replicas: 1
   template:
     metadata:
       labels:
-        app: soc
+        app: tool
     spec:
       volumes:
         - name: shared-volume
           persistentVolumeClaim:
             claimName: shared-pvc
-        - name: ingress
-          persistentVolumeClaim:
-            claimName: ingress-pvc
       containers:
-      - image: docker.io/library/soc:v1
-        name: soc
+      - image: docker.io/library/tool:v1
+        name: tool-tcpreplay
         resources: {}
         volumeMounts:
         - name: shared-volume
           mountPath: /app/uploads
-        - name: ingress
-          mountPath: /app/templates/logs/
       dnsPolicy: ClusterFirst
       restartPolicy: Always

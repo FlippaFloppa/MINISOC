@@ -1,6 +1,5 @@
-kubectl delete -f kubernetes/rs.yaml
+kubectl delete -f kubernetes/tool.yaml
 docker build -t tool .
 docker tag tool tool:v1
-minikube image rm docker.io/library/tool:v1
-minikube image load tool:v1
-kubectl apply -f kubernetes/rs.yaml
+docker save tool:v1 | sudo k3s ctr images import -
+kubectl apply -f kubernetes/tool.yaml

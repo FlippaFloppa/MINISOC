@@ -1,3 +1,85 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: null
+  name: scalable
+spec: {}
+status: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-conf
+  namespace: scalable
+data:
+  nginx.conf: |
+    user nginx;
+    error_log  /var/log/nginx/nginx-error.log;
+    worker_processes  1;
+    events {
+      worker_connections  10240;
+    }
+    http {
+      server {
+          listen       8080;
+          server_name  localhost;
+          access_log /var/log/nginx/nginx-access.log;
+          location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+      }
+    }
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ingress-pv
+  labels:
+    type: local
+spec:
+  storageClassName: local-path
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/scalable"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ingress-pvc
+  namespace: scalable
+spec:
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: simple-app
+  name: simple-app
+  annotations:
+    metallb.universe.tf/allow-shared-ip: "scalable"
+  namespace: scalable
+spec:
+  ports:
+  - port: 5001
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: simple-app
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:

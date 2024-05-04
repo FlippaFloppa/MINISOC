@@ -39,8 +39,6 @@ def upload():
                 f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
     return render_template('index.html')
 
-<<<<<<< HEAD
-=======
 @app.route('/stats', methods=['POST', 'GET'])
 def stats():
     if request.method == 'GET':
@@ -48,6 +46,5 @@ def stats():
             res = file.read()
         return res
 
->>>>>>> 5018a39 (Added Monitoring and Statistics)
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
