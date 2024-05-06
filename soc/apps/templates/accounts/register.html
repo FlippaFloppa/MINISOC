@@ -1,0 +1,93 @@
+{% extends 'layouts/auth_base.html' %}
+
+{% block title %} SignUp {% endblock title %}
+
+{% block content %}
+  <div class="auth-main">
+    <div class="auth-wrapper v3">
+      <div class="auth-form">
+        <div class="card mt-5">
+          <div class="card-body">
+            <a href="#" class="d-flex justify-content-center mt-3">
+              <img src="{{ url_for('static', filename='assets/images/logo-dark.svg') }}" />
+            </a>
+            <div class="row">
+              <div class="d-flex justify-content-center">
+                <div class="auth-header">
+                  <h2 class="text-secondary mt-5"><b>Sign up</b></h2>
+                </div>
+              </div>
+            </div>
+            <!--
+            <button type="button" class="btn mt-2 btn-light-primary bg-light text-muted" style="width: 100%">
+              <img src="{{ url_for('static', filename='assets/images/authentication/google-icon.svg') }}" />Sign Up With Google
+            </button>
+            <div class="saprator mt-3">
+              <span>or</span>
+            </div>
+            -->
+            <h5 class="my-4 d-flex justify-content-center">
+              
+              {% if msg %}
+                <span>
+                  {{ msg | safe }}
+                </span>
+              {% else %}
+                Add your credentials
+              {% endif %} 
+
+            </h5>
+
+            {% if success %}
+
+              <hr />
+              <h5 class="d-flex justify-content-center"> 
+                <a href="{{ url_for('authentication_blueprint.login') }}" class="btn btn-secondary p-2">Sign IN</a>
+              </h5>              
+
+            {% else %}
+
+              <form role="form" method="post" action="">
+
+                {{ form.hidden_tag() }} 
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-floating mb-3">
+                      {{ form.username(placeholder="Username", class="form-control") }}
+                      <label for="floatingInput">Username</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-floating mb-3">
+                  {{ form.email(placeholder="Email", class="input form-control", type="email") }}
+                  <label for="floatingInput">Email Address</label>
+                </div>
+                <div class="form-floating mb-3">
+                  {{ form.password(placeholder="Password", class="form-control", type="password") }}
+                  <label for="floatingInput">Password</label>
+                </div>
+                <div class="form-check mt-3s">
+                  <input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked="" />
+                  <label class="form-check-label" for="customCheckc1">
+                    <h5>Agree with <span>Terms & Condition.</span></h5>
+                  </label>
+                </div>
+                <div class="d-grid mt-4">
+                  <button type="submit" name="register" class="btn btn-secondary p-2">Sign Up</button>
+                </div>
+              </form>
+
+              <hr />
+              <h5 class="d-flex justify-content-center">Already have an account? 
+                <a class="ms-2" href="{{ url_for('authentication_blueprint.login') }}">Login</a>
+              </h5>
+
+            {% endif %} 
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

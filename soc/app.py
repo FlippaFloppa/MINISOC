@@ -1,50 +1,40 @@
-# -*- coding: utf-8 -*-
+# -*- encoding: utf-8 -*-
 """
-    :author: Grey Li <withlihui@gmail.com>
-    :copyright: (c) 2017 by Grey Li.
-    :license: MIT, see LICENSE for more details.
+Copyright (c) 2019 - present AppSeed.us
 """
+
 import os
+from   flask_migrate import Migrate
+from   flask_minify  import Minify
+from   sys import exit
 
-from flask_dropzone import Dropzone
-from flask import Flask, render_template, request
+from apps.config import config_dict
+from apps import create_app, db
 
-basedir = os.path.abspath(os.path.dirname(__file__))
+# WARNING: Don't run with debug turned on in production!
+DEBUG = (os.getenv('DEBUG', 'False') == 'True')
 
+# The configuration
+get_config_mode = 'Debug' if DEBUG else 'Production'
 
-app = Flask(__name__)
+try:
 
-app.config.update(
-    UPLOADED_PATH=os.path.join(basedir, 'uploads'),
-    # Flask-Dropzone config:
-    DROPZONE_ALLOWED_FILE_CUSTOM = True,
-    DROPZONE_ALLOWED_FILE_TYPE = '.txt, .pcap',
-    DROPZONE_MAX_FILE_SIZE=5000,
-    DROPZONE_MAX_FILES=30,
-    DROPZONE_PARALLEL_UPLOADS=3,  # set parallel amount
-    DROPZONE_UPLOAD_MULTIPLE=True,  # enable upload multiple
-)
+    # Load the configuration using the default values
+    app_config = config_dict[get_config_mode.capitalize()]
 
-dropzone = Dropzone(app)
+except KeyError:
+    exit('Error: Invalid <config_mode>. Expected values [Debug, Production] ')
 
-@app.route('/', methods=['POST', 'GET'])
-def init():
-    return render_template('index.html')
+app = create_app(app_config)
+Migrate(app, db)
 
-@app.route('/upload', methods=['POST', 'GET'])
-def upload():
-    if request.method == 'POST':
-        for key, f in request.files.items():
-            if key.startswith('file'):
-                f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
-    return render_template('index.html')
+if not DEBUG:
+    Minify(app=app, html=True, js=False, cssless=False)
+    
+if DEBUG:
+    app.logger.info('DEBUG            = ' + str(DEBUG) )
+    app.logger.info('Page Compression = ' + 'FALSE' if DEBUG else 'TRUE' )
+    app.logger.info('DBMS             = ' + app_config.SQLALCHEMY_DATABASE_URI)
 
-@app.route('/stats', methods=['POST', 'GET'])
-def stats():
-    if request.method == 'GET':
-        with open("templates/logs/result.html", "r") as file:
-            res = file.read()
-        return res
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
+if __name__ == "__main__":
+    app.run()

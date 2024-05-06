@@ -1,0 +1,58 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Analyzer {% endblock title %}
+
+{% block content %}
+<!-- [ Main Content ] start -->
+<div class="pc-container">
+  <div class="pc-content">
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h5 class="m-b-10">Analyzer</h5>
+            </div>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+              <li class="breadcrumb-item" aria-current="page">Analyzer</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ breadcrumb ] end -->
+
+
+    <!-- [ Main Content ] start -->
+    <div class="row">
+      <!-- [ sample-page ] start -->
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h5>Analyzer</h5>
+          </div>
+          <div class="card-body">
+            {{ dropzone.load_css() }}
+            {{ dropzone.style('border: 2px dashed #673AB7; margin: 5%; min-height: 400px; background:inherit;') }}
+            {{ dropzone.create("home_blueprint.upload") }}
+            {{ dropzone.load_js() }}
+            {{ dropzone.config() }}
+            <form method="post" action="/request-analyze">
+              <button type="submit" class="btn btn-secondary">Analyze</button>
+            </form>
+          </div>
+
+          <div class="card-body">
+            {{analyze_output}}
+          </div>
+        </div>
+      </div>
+      <!-- [ sample-page ] end -->
+    </div>
+    <!-- [ Main Content ] end -->
+  </div>
+</div>
+<!-- [ Main Content ] end -->
+{% endblock content %}

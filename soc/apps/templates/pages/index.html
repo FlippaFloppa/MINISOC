@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+{% block content %}
+<!-- [ Main Content ] start -->
+
+<div class="pc-container">
+  <div class="center">
+    <h1>MiniSOC</h1>
+  </div>
+</div>
+<!-- [ Main Content ] end -->
+{% endblock content %}
+
+{% block extra_js %}
+<!-- Apex Chart -->
+<script src="{{ url_for('static', filename='assets/js/plugins/apexcharts.min.js') }}"></script>
+<script src="{{ url_for('static', filename='assets/js/pages/dashboard-default.js') }}"></script>
+<!-- [Page Specific JS] end -->
+{% endblock extra_js %}

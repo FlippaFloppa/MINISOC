@@ -1,0 +1,43 @@
+@font-face {
+    font-family: "Terminal-Grotesque";
+    src: url(terminal-grotesque.ttf) format("truetype");
+}
+
+h1 {
+    font-size: 10em !important;
+    color: #673AB7 !important;
+    font-family: 'Terminal-Grotesque' !important;
+}
+
+.dropzone.dz-clickable {
+    cursor: pointer;
+    background: inherit;
+}
+
+.dropzone .dz-preview.dz-file-preview .dz-image {
+    border-radius: 20px;
+    background: #673AB7 !important;
+    padding: 1rem;
+}
+
+.dropzone .dz-preview .dz-details .dz-filename span {
+    background-color: inherit;
+    font-size: 1em;
+    color: #01012b;
+  }
+.dropzone .dz-preview .dz-details .dz-size span {
+    background-color: inherit;
+    border-radius: 20px;
+    font-size: 2em;
+    color: #01012b;
+}
+
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
