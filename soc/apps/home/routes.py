@@ -111,6 +111,15 @@ def application_statistics():
         name="Application Statistics"
     )  
 
+@blueprint.route('/trivy')
+@login_required
+def trivy():
+    return render_template(
+        'pages/statistics.html', 
+        url=costants["URL_GRAFANA"]+"/d/ycwPj724k/trivy-operator-dashboard?orgId=1&kiosk&from=1714836090851&to=1715008890851",
+        name="Trivy Operator Dashboard"
+    )
+
 
 @blueprint.route('/accounts/password-reset/')
 def password_reset():
