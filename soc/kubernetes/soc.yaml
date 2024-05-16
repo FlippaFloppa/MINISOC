@@ -1,12 +1,4 @@
 apiVersion: v1
-kind: Namespace
-metadata:
-  creationTimestamp: null
-  name: scalable
-spec: {}
-status: {}
----
-apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: shared-pv
@@ -25,7 +17,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: shared-pvc
-  namespace: scalable
+  namespace: monitoring
 spec:
   storageClassName: local-path
   accessModes:
@@ -39,7 +31,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   name: soc-svc
-  namespace: scalable
+  namespace: monitoring
   annotations:
     metallb.universe.tf/allow-shared-ip: "scalable"
 spec:
@@ -57,12 +49,12 @@ apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
   name: soc
-  namespace: scalable
+  namespace: monitoring
 spec:
   selector:
     matchLabels:
       app: soc
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -83,6 +75,6 @@ spec:
         - name: shared-volume
           mountPath: /app/uploads
         - name: ingress
-          mountPath: /app/templates/logs/
+          mountPath: /app/templates/logs
       dnsPolicy: ClusterFirst
       restartPolicy: Always

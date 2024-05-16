@@ -45,7 +45,6 @@ def cluster():
         name="Cluster"
     )  
 
-
 @blueprint.route('/analyzer')
 @login_required
 def analyzer():
@@ -71,8 +70,8 @@ def request_analyze():
 def compute_resources_node_kubernetes():
     return render_template(
         'pages/statistics.html', 
-        url=costants["URL_GRAFANA"]+"/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&refresh=10s&var-datasource=default&var-cluster=&var-node=kubernetes&kiosk&from=1714912772800&to=1714916372800",
-        name="Kubernetes / Compute Resources / Node (Pods) / Kubernetes"
+        url=costants["URL_GRAFANA"]+"/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&refresh=10s&var-datasource=default&var-cluster=&var-node=kubernetes&kiosk",
+        name="Pods Workload - Master"
     )  
 
 @blueprint.route('/compute_resources_node_worker')
@@ -80,8 +79,8 @@ def compute_resources_node_kubernetes():
 def compute_resources_node_worker():
     return render_template(
         'pages/statistics.html', 
-        url=costants["URL_GRAFANA"]+"/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&refresh=10s&kiosk&from=1714947109571&to=1714950709571",
-        name="Kubernetes / Compute Resources / Node (Pods) / k3s Worker"
+        url=costants["URL_GRAFANA"]+"/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&refresh=10s&kiosk",
+        name="Pods Workload - Worker"
     )  
 
 @blueprint.route('/persistent_volume')
@@ -89,8 +88,8 @@ def compute_resources_node_worker():
 def persistent_volume():
     return render_template(
         'pages/statistics.html', 
-        url=costants["URL_GRAFANA"]+"/d/919b92a8e8041bd567af9edab12c840c/kubernetes-persistent-volumes?orgId=1&refresh=10s&var-datasource=default&var-cluster=&var-namespace=scalable&var-volume=ingress-pvc&kiosk&from=1714344633517&to=1714949433517",
-        name="Kubernetes / Persistent Volumes"
+        url=costants["URL_GRAFANA"]+"/d/919b92a8e8041bd567af9edab12c840c/kubernetes-persistent-volumes?orgId=1&refresh=10s&kiosk",
+        name="Volumes"
     )  
 
 @blueprint.route('/networking_pod')
@@ -98,8 +97,8 @@ def persistent_volume():
 def networking_pod():
     return render_template(
         'pages/statistics.html', 
-        url=costants["URL_GRAFANA"]+"/d/7a18067ce943a40ae25454675c19ff5c/kubernetes-networking-pod?orgId=1&refresh=10s&var-datasource=default&var-cluster=&var-namespace=scalable&var-pod=simple-app-558c9c4bbb-mrp9f&var-resolution=5m&var-interval=4h&kiosk&from=1714945904964&to=1714949504964",
-        name="Kubernetes / Networking / Pod"
+        url=costants["URL_GRAFANA"]+"/d/8b7a8b326d7a6f1f04244066368c67af/kubernetes-networking-namespace-pods?orgId=1&refresh=10s&kiosk",
+        name="Networking"
     )  
 
 @blueprint.route('/application_statistics')
@@ -110,7 +109,6 @@ def application_statistics():
         url=costants["URL_STATS"]+"/stats",
         name="Application Statistics"
     )  
-
 
 @blueprint.route('/accounts/password-reset/')
 def password_reset():
@@ -175,4 +173,10 @@ def get_segment(request):
         return None
 
 
+@blueprint.route('/stats', methods=['POST', 'GET'])
+def stats():
+    if request.method == 'GET':
+        with open("templates/logs/result.html", "r") as file:
+            res = file.read()
+        return res
 

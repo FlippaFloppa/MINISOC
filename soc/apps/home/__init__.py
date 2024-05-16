@@ -14,8 +14,8 @@ blueprint = Blueprint(
 costants = {
     "UPLOADED_PATH" : "uploads",
     "URL_ANALYZE":"http://tool-svc:5001",
-    "URL_GRAFANA": "http://localhost:1234",
-    "URL_STATS": "http://localhost:1235",
-    "URL_CLUSTER": "http://localhost:1236",
+    "URL_GRAFANA": "http://prometheus-grafana:3000",
+    "URL_STATS": "http://soc-svc:5000",
+    "URL_CLUSTER": "http://kubernetes-dashboard-kong-proxy",
 }
 

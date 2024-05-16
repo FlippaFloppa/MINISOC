@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   creationTimestamp: null
-  name: scalable
+  name: monitoring
 spec: {}
 status: {}
 ---
@@ -10,7 +10,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nginx-conf
-  namespace: scalable
+  namespace: monitoring
 data:
   nginx.conf: |
     user nginx;
@@ -50,7 +50,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: ingress-pvc
-  namespace: scalable
+  namespace: monitoring
 spec:
   storageClassName: local-path
   accessModes:
@@ -68,7 +68,7 @@ metadata:
   name: simple-app
   annotations:
     metallb.universe.tf/allow-shared-ip: "scalable"
-  namespace: scalable
+  namespace: monitoring
 spec:
   ports:
   - port: 5001
@@ -87,7 +87,7 @@ metadata:
   labels:
     app: simple-app
   name: simple-app
-  namespace: scalable
+  namespace: monitoring
 spec:
   replicas: 1
   selector:
