@@ -3,7 +3,8 @@ WORKDIR /app
 COPY . /app
 RUN pip install -r requirements.txt
 RUN apt update && apt upgrade -y 
-RUN apt install tcpreplay -y
+RUN apt install tshark yara git -y
+RUN git clone https://github.com/Yara-Rules/rules.git
 COPY . .
 EXPOSE 5000
 ENV FLASK_APP=app.py
