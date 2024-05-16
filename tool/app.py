@@ -6,7 +6,7 @@
 """
 import os
 import glob
-directory = 'uploads'
+directory = 'uploads/files'
 
 from flask import Flask, render_template, request, render_template_string
 
@@ -18,7 +18,7 @@ app = Flask(__name__)
 @app.route('/compute_netscan', methods=['GET','POST'])
 def compute_netscan():
     try:
-        cmd_1 = f'tshark -n -r uploads/*.pcap -q -z conv,ip > tmp'
+        cmd_1 = f'tshark -n -r uploads/files/*.pcap -q -z conv,ip > tmp'
         os.system(cmd_1)
         f = open('tmp', 'r')
         result = f.read()
@@ -32,9 +32,9 @@ def compute_netscan():
 
 @app.route('/compute_malware', methods=['GET','POST'])
 def compute_malware():
-        cmd_2 = f'yara -w rules/index.yar -m -a 10 -f uploads/ > tmp'
+        cmd_2 = f'yara -w rules/index.yar -m -a 10 -f uploads/files > tmp'
         os.system(cmd_2)
-        cmd_3 = f'yara -w rules/malware_index.yar -m -a 10 -f uploads/ >> tmp'
+        cmd_3 = f'yara -w rules/malware_index.yar -m -a 10 -f uploads/files >> tmp'
         os.system(cmd_3)
         cmd_4 = f'sort tmp | uniq'
         f = open('tmp', 'r')
