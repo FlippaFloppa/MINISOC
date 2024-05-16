@@ -24,6 +24,9 @@ def compute_netscan():
         result = f.read()
         f.close()
         os.remove('tmp')
+        files = glob.glob(directory + "/*")
+        for f in files:
+            os.remove(f)
         print(result)
         return render_template('index.html', data = result)
     except:
