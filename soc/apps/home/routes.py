@@ -59,10 +59,16 @@ def upload():
                 f.save(os.path.join(costants["UPLOADED_PATH"], f.filename))
     return render_template('pages/analyzer.html')
 
-@blueprint.route('/request-analyze', methods=['POST', 'GET'])
+@blueprint.route('/compute_malware', methods=['POST', 'GET'])
 @login_required
 def request_analyze():
-    response = requests.get(costants["URL_ANALYZE"]+'/analyze') # todo: change to the correct url
+    response = requests.get(costants["URL_ANALYZE"]+'/compute_malware') # todo: change to the correct url
+    return render_template('pages/analyzer.html', analyze_output=response.text) 
+
+@blueprint.route('/compute_netscan', methods=['POST', 'GET'])
+@login_required
+def request_analyze():
+    response = requests.get(costants["URL_ANALYZE"]+'/compute_netscan') # todo: change to the correct url
     return render_template('pages/analyzer.html', analyze_output=response.text) 
     
 @blueprint.route('/compute_resources_node_kubernetes')
