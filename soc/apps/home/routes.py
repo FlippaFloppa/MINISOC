@@ -121,7 +121,7 @@ def application_statistics():
 def trivy():
     return render_template(
         'pages/statistics.html', 
-        url=costants["URL_GRAFANA"]+"/d/ycwPj724k/trivy-operator-dashboard?orgId=1&kiosk&from=1714836090851&to=1715008890851",
+        url=costants["URL_GRAFANA"]+"/d/ycwPj724k/trivy-operator-dashboard?orgId=1&kiosk",
         name="Trivy Operator Dashboard"
     )
 
