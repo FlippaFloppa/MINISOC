@@ -59,11 +59,11 @@ def upload():
                 f.save(os.path.join(costants["UPLOADED_PATH"], f.filename))
     return render_template('pages/analyzer.html')
 
-@blueprint.route('/compute_malware', methods=['POST', 'GET'])
-@login_required
-def request_analyze():
-    response = requests.get(costants["URL_ANALYZE"]+'/compute_malware') # todo: change to the correct url
-    return render_template('pages/analyzer.html', analyze_output=response.text) 
+#@blueprint.route('/compute_malware', methods=['POST', 'GET'])
+#@login_required
+#def request_analyze():
+#    response = requests.get(costants["URL_ANALYZE"]+'/compute_malware') # todo: change to the correct url
+#    return render_template('pages/analyzer.html', analyze_output=response.text) 
 
 @blueprint.route('/compute_netscan', methods=['POST', 'GET'])
 @login_required
@@ -116,8 +116,6 @@ def application_statistics():
         name="Application Statistics"
     )  
 
-<<<<<<< HEAD
-=======
 @blueprint.route('/trivy')
 @login_required
 def trivy():
@@ -127,8 +125,6 @@ def trivy():
         name="Trivy Operator Dashboard"
     )
 
-
->>>>>>> 8148f3f7cc6fdf59a2bf32b1cc672f6b77e14ab0
 @blueprint.route('/accounts/password-reset/')
 def password_reset():
     return render_template('accounts/password_reset.html')

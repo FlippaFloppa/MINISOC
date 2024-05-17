@@ -41,6 +41,10 @@ spec:
     targetPort: 5000
   selector:
     app: soc
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10000
   type: LoadBalancer
 status:
   loadBalancer: {}
