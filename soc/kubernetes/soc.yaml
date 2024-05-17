@@ -74,7 +74,10 @@ spec:
       containers:
       - image: docker.io/library/soc:v1
         name: soc
-        resources: {}
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
         volumeMounts:
         - name: shared-volume
           mountPath: /app/uploads
