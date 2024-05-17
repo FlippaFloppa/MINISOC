@@ -70,7 +70,16 @@ def upload():
 def request_analyze():
     response = requests.get(costants["URL_ANALYZE"]+'/compute_netscan') # todo: change to the correct url
     return render_template('pages/analyzer.html', analyze_output=response.text) 
-    
+
+@blueprint.route('/coredns')
+@login_required
+def coredns():
+    return render_template(
+        'pages/statistics.html', 
+        url=costants["URL_GRAFANA"]+"/d/vkQ0UHxik/coredns?orgId=1&refresh=1s&kiosk",
+        name="DNS"
+    )  
+
 @blueprint.route('/compute_resources_node_kubernetes')
 @login_required
 def compute_resources_node_kubernetes():
