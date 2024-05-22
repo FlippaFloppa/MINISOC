@@ -41,3 +41,11 @@ h1 {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
+
+
+.table{
+    color:#673AB7 !important;
+    --bs-table-bg: #e0d3ef !important;
+    border-radius: 10px !important;
+}
+
