@@ -13,7 +13,7 @@
           <label>Dashboard</label>
           <i class="ti ti-dashboard"></i>
         </li>
-        
+
         <li class="pc-item">
           <a href="/" class="pc-link">
             <span class="pc-micon"><i class="ti ti-home"></i></span>
@@ -25,9 +25,24 @@
                 class="ti ti-prompt"></i></span><span class="pc-mtext">Cluster</span></a>
         </li>
 
+        <li class="pc-item pc-caption">
+          <label>Security</label>
+          <i class="ti ti-dashboard"></i>
+        </li>
+
         <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.analyzer') }}" class="pc-link"><span class="pc-micon"><i
-                class="ti ti-upload"></i></span><span class="pc-mtext">Analyzer</span></a>
+          <a href="{{ url_for('home_blueprint.analyzer_network') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-upload"></i></span><span class="pc-mtext">Network Analyzer</span></a>
+        </li>
+
+        <li class="pc-item">
+          <a href="{{ url_for('home_blueprint.analyzer_malware') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-upload"></i></span><span class="pc-mtext">Malware Analyzer</span></a>
+        </li>
+
+        <li class="pc-item">
+          <a href="{{ url_for('home_blueprint.kasm') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-upload"></i></span><span class="pc-mtext">Kasm</span></a>
         </li>
 
         <li class="pc-item pc-caption">
@@ -35,48 +50,50 @@
           <i class="ti ti-dashboard"></i>
         </li>
 
-
         <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.coredns') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-antenna-bars-5"></i></span><span
-              class="pc-mtext">CoreDNS</span></a>
+          <a href="{{ url_for('home_blueprint.coredns') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-antenna-bars-5"></i></span><span class="pc-mtext">CoreDNS</span></a>
         </li>
 
         <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.compute_resources_node_kubernetes') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-box-model-2"></i></span><span
-              class="pc-mtext">Pods Workload - Master</span></a>
+          <a href="{{ url_for('home_blueprint.compute_resources_node_kubernetes') }}" class="pc-link"><span
+              class="pc-micon"><i class="ti ti-box-model-2"></i></span><span class="pc-mtext">Pods Workload -
+              Master</span></a>
         </li>
 
         <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.compute_resources_node_worker') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-box-model-2"></i></span><span
-              class="pc-mtext">Pods Workload - Worker</span></a>
+          <a href="{{ url_for('home_blueprint.compute_resources_node_worker') }}" class="pc-link"><span
+              class="pc-micon"><i class="ti ti-box-model-2"></i></span><span class="pc-mtext">Pods Workload -
+              Worker</span></a>
         </li>
 
         <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.persistent_volume') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-folders"></i></span><span
-              class="pc-mtext">Volumes</span></a>
+          <a href="{{ url_for('home_blueprint.persistent_volume') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-folders"></i></span><span class="pc-mtext">Volumes</span></a>
         </li>
 
         <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.networking_pod') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-wave-saw-tool"></i></span><span
-              class="pc-mtext">Networking</span></a>
+          <a href="{{ url_for('home_blueprint.networking_pod') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-wave-saw-tool"></i></span><span class="pc-mtext">Networking</span></a>
         </li>
 
         <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.application_statistics') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-device-desktop-analytics"></i></span><span
-              class="pc-mtext">Application Statistics</span></a>
+          <a href="{{ url_for('home_blueprint.application_statistics') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-device-desktop-analytics"></i></span><span class="pc-mtext">Application
+              Statistics</span></a>
         </li>
 
         <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.trivy') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-dashboard"></i></span><span
-              class="pc-mtext">Trivy</span></a>
+          <a href="{{ url_for('home_blueprint.trivy') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-dashboard"></i></span><span class="pc-mtext">Trivy</span></a>
         </li>
-        
+
       </ul>
       <div class="pc-navbar-card bg-purple-900 rounded position-absolute bottom-0 start-0">
         <h4 class="text-white">MiniSoc</h4>
         <p class="text-purple-900 opacity-75">Open-Source Repo</p>
-        <a href="https://github.com/FlippaFloppa/Scalable-And-Reliable"  
-           target="_blank" class="btn btn-light text-primary">GitHub</a>
+        <a href="https://github.com/FlippaFloppa/Scalable-And-Reliable" target="_blank"
+          class="btn btn-light text-primary">GitHub</a>
       </div>
     </div>
   </div>
