@@ -34,9 +34,9 @@
             <h5>Analyzer</h5>
           </div>
 
-
           <div class="card-body">
             <form method="post" action="/{{analyzer_action}}">
+              <button name="start_analyze" type="submit" class="btn btn-secondary">{{title}}</button>
               {% if (show_filter) %}
               <label><input type="checkbox" name="filter-ssh" value="SSH" />SSH</label>
               <label><input type="checkbox" name="filter-http" value="HTTP" />HTTP</label>
@@ -45,7 +45,6 @@
               <label><input type="checkbox" name="filter-ssl" value="SSL" />SSL</label>
               <label><input type="checkbox" name="filter-tcp" value="TCP" />TCP</label>
               {% endif %}
-              <button name="start_analyze" type="submit" class="btn btn-secondary">{{title}}</button>
               <br>
               {% if (analyze_output and show_load_more)%}
               <button name="previous" type="submit" class="btn btn-secondary">Load Previous</button>
