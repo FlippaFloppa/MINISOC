@@ -24,7 +24,8 @@ h1 {
     background-color: inherit;
     font-size: 1em;
     color: #01012b;
-  }
+}
+
 .dropzone .dz-preview .dz-details .dz-size span {
     background-color: inherit;
     border-radius: 20px;
@@ -40,12 +41,20 @@ h1 {
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-  }
+}
 
 
-.table{
-    color:#673AB7 !important;
+.table {
+    color: #673AB7 !important;
     --bs-table-bg: #e0d3ef !important;
     border-radius: 10px !important;
 }
 
+label {
+    display: inline-block;
+    margin: 0.5em !important;
+}
+
+input {
+    margin: 0.25em !important;
+}
