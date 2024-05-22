@@ -4,12 +4,14 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from apps.home import blueprint, costants
-from flask import render_template, request
-from flask_login import login_required
+from flask import render_template, request, session, redirect
+from flask_login import (login_required, current_user)
 from jinja2 import TemplateNotFound
 import requests
 import os
+import csv
 
+QUANTITY = 10
 
 @blueprint.route('/index')
 @login_required
@@ -45,10 +47,37 @@ def cluster():
         name="Cluster"
     )  
 
-@blueprint.route('/analyzer')
+@blueprint.route('/analyzer-network')
 @login_required
-def analyzer():
-    return render_template('pages/analyzer.html')  
+def analyzer_network():
+    if 'index_start' not in session:
+        session['index_start'] = 0
+    return render_template('pages/analyzer.html' , 
+                           title="Network Analyzer", 
+                           analyzer_action="compute-netscan", 
+                           show_load_more=True,
+                           show_filter=True
+                           )  
+
+@blueprint.route('/analyzer-malware')
+@login_required
+def analyzer_malware():
+    return render_template('pages/analyzer.html', 
+                           title="Malware Analyzer" , 
+                           analyzer_action="compute-malwarescan",
+                           show_load_more=False,
+                           show_filter=False
+                           )  
+
+@blueprint.route('/kasm')
+@login_required
+def kasm():
+    return render_template(
+        'pages/statistics.html', 
+        url=costants["URL_KASM"],
+        name="Kasm",
+        sidebar_section= "Security"
+    ) 
 
 @blueprint.route('/upload', methods=['POST', 'GET'])
 @login_required
@@ -56,20 +85,71 @@ def upload():
     if request.method == 'POST':
         for key, f in request.files.items():
             if key.startswith('file'):
-                f.save(os.path.join(costants["UPLOADED_PATH"], f.filename))
-    return render_template('pages/analyzer.html')
+                path_to_save = costants["UPLOADED_PATH"]+'/'+str(current_user.username)
+                if not os.path.exists(path_to_save):
+                    os.makedirs(path_to_save)
+                f.save(os.path.join(path_to_save, f.filename))
+    return "" # otherways gives error "The view function did not return a valid response. The return type must be a string, dict, tuple, Response instance, or WSGI callable, but it was a NoneType.
 
-#@blueprint.route('/compute_malware', methods=['POST', 'GET'])
-#@login_required
-#def request_analyze():
-#    response = requests.get(costants["URL_ANALYZE"]+'/compute_malware') # todo: change to the correct url
-#    return render_template('pages/analyzer.html', analyze_output=response.text) 
 
-@blueprint.route('/compute_netscan', methods=['POST', 'GET'])
+@blueprint.route('/clear-files')
 @login_required
-def request_analyze():
-    response = requests.get(costants["URL_ANALYZE"]+'/compute_netscan') # todo: change to the correct url
-    return render_template('pages/analyzer.html', analyze_output=response.text) 
+def clear_files():
+    if request.method == 'GET':
+        path_to_save = costants["UPLOADED_PATH"]+'/'+str(current_user.username)
+        for f in os.listdir(path_to_save):
+            os.remove(os.path.join(path_to_save, f))
+    return redirect(request.referrer)
+
+@blueprint.route('/compute-netscan', methods=['POST', 'GET'])
+@login_required
+def request_analyze_netscan():
+    input_filter = [key.split('-')[1] for key in request.form.keys() if key.startswith('filter-')]
+    #format in a string separated with commas
+    input_filter = ",".join(input_filter)
+
+    if 'index_start' not in session:
+        session['index_start'] = 0
+    if request.form.keys() is not None and len(request.form.keys()) > 0:
+        type_req=list(request.form.keys())[-1]
+        if type_req == "previous":
+            if session['index_start'] < QUANTITY:
+                session['index_start'] = 0
+            else:
+                session['index_start'] -= QUANTITY
+        elif type_req == "start_analyze":
+            session['index_start'] = 0
+        elif type_req == "more":
+            session['index_start'] += QUANTITY
+        
+    payload = {'index_start': session['index_start'], 'quantity': QUANTITY, 'user': current_user.username, 'filters': input_filter}
+    response = requests.get(costants["URL_ANALYZE"]+'/compute-netscan', params=payload) # todo: change to the correct url
+    response = response.json()
+    data = csv.reader(response.splitlines(), delimiter=',')
+    return render_template('pages/analyzer.html', 
+                           analyze_output=data,
+                           title="Network Analyzer",
+                           analyzer_action="compute-netscan",
+                           show_load_more=True,
+                           show_filter=True,
+                           ) 
+
+
+@blueprint.route('/compute-malwarescan', methods=['POST', 'GET'])
+@login_required
+def request_analyze_malware():
+    payload = {'user': current_user.username}
+    response = requests.get(costants["URL_ANALYZE"]+'/compute-malwarescan', params=payload) # todo: change to the correct url
+    response = response.json()
+    data = csv.reader(response.splitlines(), delimiter=',')
+    return render_template('pages/analyzer.html', 
+                           analyze_output=data,
+                           title="Malware Analyzer", 
+                           analyzer_action="compute-malwarescan",
+                           show_load_more=False,
+                            show_filter=False
+                           ) 
+
 
 @blueprint.route('/coredns')
 @login_required
