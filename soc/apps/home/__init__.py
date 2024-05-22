@@ -16,6 +16,7 @@ costants = {
     "URL_ANALYZE":"http://tool-svc:5001",
     "URL_GRAFANA": "http://prometheus-grafana:3000",
     "URL_STATS": "http://soc-svc:5000",
-    "URL_CLUSTER": "http://kubernetes-dashboard-kong-proxy",
+    "URL_CLUSTER": "https://soc-svc:443/", #"http://kubernetes-dashboard-kong-proxy",
+    "URL_KASM": "https://soc-svc/#/userdashboard",
 }
 
