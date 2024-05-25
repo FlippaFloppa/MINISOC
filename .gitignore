@@ -2,3 +2,7 @@
 tool/uploads/*
 
 */__pycache__/
+aws/terraform/.terraform/*
+*.tfstate
+*.tfvars
+*lock.hcl*
