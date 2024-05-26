@@ -64,8 +64,8 @@ def create_app(config):
     UPLOADED_PATH=os.path.join(basedir, 'uploads'),
     # Flask-Dropzone config
     DROPZONE_ALLOWED_FILE_CUSTOM = True,
-    DROPZONE_ALLOWED_FILE_TYPE = '.txt, .pcap',
     DROPZONE_MAX_FILE_SIZE=5000,
+    DROPZONE_ALLOWED_FILE_TYPE='.exe, .pdf, .txt, .pcap, .pcapng, .jpg, .jpeg, .png, .*',
     DROPZONE_MAX_FILES=30,
     DROPZONE_PARALLEL_UPLOADS=3,  # set parallel amount
     DROPZONE_UPLOAD_MULTIPLE=True,  # enable upload multiple
