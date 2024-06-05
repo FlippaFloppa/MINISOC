@@ -45,6 +45,11 @@
                 class="ti ti-device-desktop"></i></span><span class="pc-mtext">Kasm</span></a>
         </li>
 
+        <li class="pc-item">
+          <a href="{{ url_for('home_blueprint.trivy') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-dashboard"></i></span><span class="pc-mtext">Trivy</span></a>
+        </li>
+
         <li class="pc-item pc-caption">
           <label>Statistics</label>
           <i class="ti ti-dashboard"></i>
@@ -73,9 +78,15 @@
         </li>
 
         <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.networking_pod') }}" class="pc-link"><span class="pc-micon"><i
+          <a href="{{ url_for('home_blueprint.networking_cluster') }}" class="pc-link"><span class="pc-micon"><i
                 class="ti ti-wave-saw-tool"></i></span><span class="pc-mtext">Networking</span></a>
         </li>
+
+        <li class="pc-item">
+          <a href="{{ url_for('home_blueprint.kubelet') }}" class="pc-link"><span class="pc-micon"><i
+                class="ti ti-chart-arcs"></i></span><span class="pc-mtext">Kubelet</span></a>
+        </li>
+
 
         <li class="pc-item">
           <a href="{{ url_for('home_blueprint.application_statistics') }}" class="pc-link"><span class="pc-micon"><i
@@ -83,10 +94,6 @@
               Statistics</span></a>
         </li>
 
-        <li class="pc-item">
-          <a href="{{ url_for('home_blueprint.trivy') }}" class="pc-link"><span class="pc-micon"><i
-                class="ti ti-dashboard"></i></span><span class="pc-mtext">Trivy</span></a>
-        </li>
 
       </ul>
       <div class="pc-navbar-card bg-purple-900 rounded position-flex bottom-0 start-0">

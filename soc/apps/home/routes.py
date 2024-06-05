@@ -10,6 +10,7 @@ from jinja2 import TemplateNotFound
 import requests
 import os
 import csv
+import webbrowser
 
 QUANTITY = 10
 
@@ -41,11 +42,8 @@ def sample_page():
 @blueprint.route('/cluster')
 @login_required
 def cluster():
-    return render_template(
-        'pages/statistics.html', 
-        url=costants["URL_CLUSTER"]+"/#/login",
-        name="Cluster"
-    )  
+    webbrowser.open_new_tab(costants["URL_CLUSTER"]+"/#/login")
+    return redirect(request.referrer)
 
 @blueprint.route('/analyzer-network')
 @login_required
@@ -147,7 +145,7 @@ def request_analyze_malware():
                            title="Malware Analyzer", 
                            analyzer_action="compute-malwarescan",
                            show_load_more=False,
-                            show_filter=False
+                            show_filter=False,
                            ) 
 
 
@@ -156,8 +154,9 @@ def request_analyze_malware():
 def coredns():
     return render_template(
         'pages/statistics.html', 
-        url=costants["URL_GRAFANA"]+"/d/vkQ0UHxik/coredns?orgId=1&refresh=1s&kiosk",
-        name="DNS"
+        url=costants["URL_GRAFANA"]+"/d/core-dns/core-dns?orgId=1&refresh=10s&kiosk",
+        name="DNS",
+        sidebar_section= "Statistics"
     )  
 
 @blueprint.route('/compute_resources_node_kubernetes')
@@ -165,8 +164,9 @@ def coredns():
 def compute_resources_node_kubernetes():
     return render_template(
         'pages/statistics.html', 
-        url=costants["URL_GRAFANA"]+"/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&refresh=10s&var-datasource=default&var-cluster=&var-node=kubernetes&kiosk",
-        name="Pods Workload - Master"
+        url=costants["URL_GRAFANA"]+"/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&refresh=10s&var-datasource=prometheus&var-cluster=&var-node=kubernetes&kiosk",
+        name="Pods Workload - Master",
+        sidebar_section= "Statistics"
     )  
 
 @blueprint.route('/compute_resources_node_worker')
@@ -175,7 +175,8 @@ def compute_resources_node_worker():
     return render_template(
         'pages/statistics.html', 
         url=costants["URL_GRAFANA"]+"/d/200ac8fdbfbb74b39aff88118e4d1c2c/kubernetes-compute-resources-node-pods?orgId=1&refresh=10s&kiosk",
-        name="Pods Workload - Worker"
+        name="Pods Workload - Worker",
+        sidebar_section= "Statistics"
     )  
 
 @blueprint.route('/persistent_volume')
@@ -184,16 +185,28 @@ def persistent_volume():
     return render_template(
         'pages/statistics.html', 
         url=costants["URL_GRAFANA"]+"/d/919b92a8e8041bd567af9edab12c840c/kubernetes-persistent-volumes?orgId=1&refresh=10s&kiosk",
-        name="Volumes"
+        name="Volumes",
+        sidebar_section= "Statistics"
     )  
 
-@blueprint.route('/networking_pod')
+@blueprint.route('/networking_cluster')
 @login_required
-def networking_pod():
+def networking_cluster():
     return render_template(
         'pages/statistics.html', 
-        url=costants["URL_GRAFANA"]+"/d/8b7a8b326d7a6f1f04244066368c67af/kubernetes-networking-namespace-pods?orgId=1&refresh=10s&kiosk",
-        name="Networking"
+        url=costants["URL_GRAFANA"]+"/d/ff635a025bcfea7bc3dd4f508990a3e9/kubernetes-networking-cluster?orgId=1&refresh=10s&kiosk",
+        name="Networking",
+        sidebar_section= "Statistics"
+    )  
+
+@blueprint.route('/kubelet')
+@login_required
+def kubelet():
+    return render_template(
+        'pages/statistics.html', 
+        url=costants["URL_GRAFANA"]+"/d/kubelet/kubernetes-kubelet?orgId=1&refresh=10s&kiosk",
+        name="Kubelet",
+        sidebar_section= "Statistics"
     )  
 
 @blueprint.route('/application_statistics')
@@ -202,8 +215,10 @@ def application_statistics():
     return render_template(
         'pages/statistics.html', 
         url=costants["URL_STATS"]+"/stats",
-        name="Application Statistics"
+        name="Application Statistics",
+        sidebar_section= "Statistics"
     )  
+
 
 @blueprint.route('/trivy')
 @login_required
@@ -211,7 +226,8 @@ def trivy():
     return render_template(
         'pages/statistics.html', 
         url=costants["URL_GRAFANA"]+"/d/ycwPj724k/trivy-operator-dashboard?orgId=1&kiosk",
-        name="Trivy Operator Dashboard"
+        name="Trivy Operator Dashboard",
+        sidebar_section= "Security"
     )
 
 @blueprint.route('/accounts/password-reset/')
