@@ -1,1 +1,1 @@
-
+![MINISOC](minisoc.png)
